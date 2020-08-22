@@ -15,12 +15,5 @@
         "psr-4": {
             "Semilara\\Filemanager\\": "src/"
         }
-    },
-    /*"extra": {
-        "laravel": {
-            "providers": [
-                "Semilara\\Filemanager\\FilemanagerServiceProvider"
-            ]
-        }
-    }*/
+    }
 }
