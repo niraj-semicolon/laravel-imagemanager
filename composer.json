@@ -13,7 +13,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "semilara\\filemanager\\": "src/"
+            "Semilara\\Filemanager\\": "src/"
         }
     },
     "extra": {
