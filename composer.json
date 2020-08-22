@@ -1,0 +1,26 @@
+{
+    "name": "semilara/filemanager",
+    "description": "Filemanager for Laravel for images",
+    "keywords": [ "filemanager", "imagemanager", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Niraj",
+            "email": "niraj.patel.it@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "semilara\\filemanager\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Semilara\\Filemanager\\FilemanagerServiceProvider"
+            ]
+        }
+    }
+}

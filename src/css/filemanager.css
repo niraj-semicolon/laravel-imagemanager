@@ -1,0 +1,54 @@
+.thumb-placement {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s,background-color .3s,visibility 0s .3s;
+    border: 2px solid #0071a1;
+    border-radius: 2px;
+}
+
+.image-manager-image-div {
+    line-height: 1.42857;
+    background-color: #fff;
+    border-radius: 3px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+    border: 1px dashed #a2aab2;
+    cursor: pointer;
+}
+
+.image-manager-button {
+    border: 1px dashed #a2aab2;
+    background-color: #edeff0;
+    min-height: 100px;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 3px;
+    color: #555d66;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+    margin: 0;
+    display: block;
+    width: 100px;
+    color: #191e23;
+}
+
+/* set modal height */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 500px;
+    overflow-y: auto;
+}
