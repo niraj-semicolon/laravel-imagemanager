@@ -16,11 +16,11 @@
             "Semilara\\Filemanager\\": "src/"
         }
     },
-    "extra": {
+    /*"extra": {
         "laravel": {
             "providers": [
                 "Semilara\\Filemanager\\FilemanagerServiceProvider"
             ]
         }
-    }
+    }*/
 }
