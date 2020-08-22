@@ -1,4 +1,6 @@
-<?php namespace Semilara\Filemanager;
+<?php 
+
+namespace Semilara\Filemanager;
 
 use Illuminate\Support\ServiceProvider;
 
