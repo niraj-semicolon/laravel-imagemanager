@@ -1,16 +1,18 @@
-# laravel-image-manager
+# Laravel Imagemanager
 
 Laravel Image Manager for v5.8.
 
 
 ## Installation
 
-1. Run  ```composer require semilara/filemanager``` in your terminal
+1. Add  ```"semilara/filemanager": "dev-master"``` in your ```composer.json```
 
-2. Add ServiceProvider to Providers array in ```config/app.php```
+2. Run ```composer update``` from your terminal.
+
+3. Add ServiceProvider to Providers array in ```config/app.php```
 	```Semilara\Filemanager\FilemanagerServiceProvider::class,```
 
-3. Publish 
+4. Publish 
 	 ```php artisan vendor:publish --provider="Semilara\Filemanager\FilemanagerServiceProvider" --tag="filemanager" ```
 
 ## Usage
