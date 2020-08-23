@@ -41,7 +41,8 @@ $("body").on('click', '#filemanager-data a.thumbnail', function(e) {
 });
 @endif
 
-$('a.directory').on('click', function(e) {
+
+$("body").on('click', '#filemanager-data a.directory', function(e) {
 	e.preventDefault();
 
 	$('#modal-image').load($(this).attr('href'));
@@ -224,6 +225,18 @@ $( document ).ready(function() {
 	target = '&target=' + '{{ $data["target"] }}';
 	@endif
 
+	var directory='';
+	@if($data['directory'] != '')
+	directory = '&directory=' + '{{ $data["directory"] }}';
+	@endif
+
+	var filter_name = $('input[name=\'search\']').val();
+
+	var filter='';
+	if (filter_name) {
+		filter = '&filter_name=' + encodeURIComponent(filter_name);
+	}
+
 	var page = 1;
 	var enable_pagination = true;
 	loadMoreData(page);
@@ -231,7 +244,6 @@ $( document ).ready(function() {
 	$( ".modal-body" ).scroll(function(e) {
 
 		e.preventDefault();
-		console.log("scrollTop:" + $(".modal-body").scrollTop()+"height:" + $(".modal-body").height()+"window height:" + $(window).height());
 		//enable_pagination
 		if( ( $(".modal-body").scrollTop() >= $(".modal-body").height() - 10) && enable_pagination) {
 	        page++;
@@ -242,9 +254,8 @@ $( document ).ready(function() {
 
 	function loadMoreData(page){
 		enable_pagination = false; //make flag false, so that page doesnt keep on calling this function while previous result is being loaded
-		console.log(page);
 		$.ajax({
-			url: "{{ url('filemanager/pagination') }}?page="+ page + target,
+			url: "{{ url('filemanager/pagination') }}?page="+ page + target + directory + filter,
 			type: "get",
 			success: function(html) {
 				//no response from pagination, means no more records so do not let pagination
