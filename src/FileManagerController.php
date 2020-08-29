@@ -13,7 +13,8 @@ class FileManagerController extends Controller
 
     public function __construct() 
     {
-        $this->path = 'storage/app/public';
+        //$this->path = 'storage/app/public';
+        $this->path = config('imagemanager.imagemanager_path');
         $this->storage_path = base_path().'/'.$this->path;
         $this->url = env('APP_URL').'/'.$this->path;
     }
@@ -147,7 +148,16 @@ class FileManagerController extends Controller
             }
 
             // Get files
-            $files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+            //get allowed file types from config
+            $allowed = config('imagemanager.allowed_file_extension');
+            //make all types capital
+            $allowedcaps = array_map('strtoupper', $allowed);
+            //merge both small and caps
+            $allowed = array_merge($allowed, $allowedcaps);
+            //implode to make it a string
+            $allowed = implode(',', $allowed);
+            //list of matched extension files
+            $files = glob($directory . '/' . $filter_name . '*.{'.$allowed.'}', GLOB_BRACE);
 
             if (!$files) {
                 $files = array();
@@ -186,7 +196,7 @@ class FileManagerController extends Controller
                 );
             } elseif (is_file($image)) {
                 $data['images'][] = array(
-                    'thumb' => $this->resizeImage(mb_substr($image, mb_strlen($this->storage_path)), 100, 100),
+                    'thumb' => $this->resizeImage(mb_substr($image, mb_strlen($this->storage_path)), config('imagemanager.thumbnail_width'), config('imagemanager.thumbnail_height')),
                     'name'  => implode(' ', $name),
                     'type'  => 'image',
                     'path'  => mb_substr($image, mb_strlen($this->storage_path)),
@@ -203,9 +213,6 @@ class FileManagerController extends Controller
     public function upload(Request $request) {
         
         $json = array();
-
-        $this->storage_path = storage_path('app/public');
-
 
         // Make sure we have the correct directory
         if (null !== $request->get('directory')) {
@@ -237,26 +244,13 @@ class FileManagerController extends Controller
                         }
 
                         // Allowed file extension types
-                        $allowed = array(
-                            'jpg',
-                            'jpeg',
-                            'gif',
-                            'png'
-                        );
-
+                        $allowed = config('imagemanager.allowed_file_extension');
                         if (!in_array(mb_strtolower(mb_substr(strrchr($filename, '.'), 1)), $allowed)) {
                             $json['error'] = 'Warning: Incorrect file type!';
                         }
 
                         // Allowed file mime types
-                        $allowed = array(
-                            'image/jpeg',
-                            'image/pjpeg',
-                            'image/png',
-                            'image/x-png',
-                            'image/gif'
-                        );
-
+                        $allowed = config('imagemanager.allowed_file_mime_types');
                         if (!in_array($upload_file->getMimeType(), $allowed)) {
                             $json['error'] = 'Warning: Incorrect file type!';
                         }
@@ -401,7 +395,6 @@ class FileManagerController extends Controller
 
     public function resizeImage($filename, $width, $height) {
         
-        $this->storage_path = storage_path('app/public');
 
         if (!is_file($this->storage_path . $filename) || substr(str_replace('\\', '/', realpath($this->storage_path . $filename)), 0, strlen($this->storage_path)) != str_replace('\\', '/', $this->storage_path)) {
             return;
@@ -415,10 +408,6 @@ class FileManagerController extends Controller
         if (!is_file($this->storage_path . $image_new) || (filemtime($this->storage_path . $image_old) > filemtime($this->storage_path . $image_new))) {
             list($width_orig, $height_orig, $image_type) = getimagesize($this->storage_path . $image_old);
                  
-            if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF))) { 
-                return $this->storage_path . $image_old;
-            }
- 
             $path = '';
 
             $directories = explode('/', dirname($image_new));
@@ -459,6 +448,8 @@ class FileManagerController extends Controller
                 $image = imagecreatefrompng($file);
             } elseif ($file_mime == 'image/jpeg') {
                 $image = imagecreatefromjpeg($file);
+            } elseif ($file_mime == 'image/webp') {
+                $image = imagecreatefromwebp($file);
             }
         } else {
             exit('Error: Could not load image ' . $file . '!');
@@ -516,6 +507,8 @@ class FileManagerController extends Controller
         } elseif ($extension_new == 'png') {
             imagepng($image, $file_new);
         } elseif ($extension_new == 'gif') {
+            imagegif($image, $file_new);
+        } else { 
             imagegif($image, $file_new);
         }
 

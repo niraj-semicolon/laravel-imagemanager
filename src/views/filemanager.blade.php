@@ -30,7 +30,7 @@ $("body").on('click', '#filemanager-data a.thumbnail', function(e) {
 	e.preventDefault();
 	//set scr
 	$('#{{ $data['target'] }}').parent().find('div.image-manager-image-div').find('img').attr('src', $(this).find('img').attr('src'));
-	//make <a visible
+	//make div visible
 	$('#{{ $data['target'] }}').parent().find('div.image-manager-image-div').show();
 	//hide <button
 	$('#{{ $data['target'] }}').parent().find('.image-manager-button').hide();

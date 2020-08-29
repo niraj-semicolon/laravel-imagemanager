@@ -30,6 +30,7 @@ class FilemanagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/js' => public_path('js'),
             __DIR__.'/css' => public_path('css'),
+            __DIR__.'/config/imagemanager.php' => config_path('imagemanager.php'),
         ],'filemanager');
 
 

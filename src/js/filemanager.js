@@ -40,9 +40,7 @@ $(document).ready(function() {
         var target = $element.closest('div.image-manager-main-div').find('input').attr('id');
 
         $.ajax({
-            //url: '{{ url('filemanager') }}?target=' + target,
             url: 'filemanager?target=' + target,
-            //url: 'index.php?route=common/filemanager&user_token=' + getURLVar('user_token') + '&target=' + $element.parent().find('input').attr('id') + '&thumb=' + $element.attr('id'),
             dataType: 'html',
             beforeSend: function() {
                 $element.prop('disabled', true);
@@ -66,6 +64,26 @@ $(document).ready(function() {
 
         //remove popover
         $('div.image-manager-image-div').popover('dispose');
+    });
+
+    //clear thumbnail from page
+    $("body").on('click', '#button-clear', function(e) {
+       
+        var $element = $(this);
+
+        //remove scr
+        $element.closest('div.image-manager-main-div').find('div.image-manager-image-div').find('img').attr('src', '');
+        //make div invisible
+
+        $element.closest('div.image-manager-main-div').find('div.image-manager-image-div').hide();
+
+        //show <button
+        $element.closest('div.image-manager-main-div').find('.image-manager-button').show();
+
+        $element.closest('div.image-manager-main-div').find('input').val('');
+
+        $('div.image-manager-image-div').popover('dispose');
+
     });
 
 });
